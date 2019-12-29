@@ -25,7 +25,7 @@ from navdrawer import NavigationDrawer
 scatter = None
 dec_places = 3
 input_list = []
-var = 'AB', 'в€ ACB', 'BC', 'в€ BAC', 'AC', 'в€ ABC'
+var = 'AB', '∠ACB', 'BC', '∠BAC', 'AC', '∠ABC'
 sm = ScreenManager(transition=FadeTransition())
 
 # CREATING 4 MAIN SCREENS AS CLASSES
@@ -39,7 +39,7 @@ class Sc2(Screen):            # Graphic
     def __init__(self, **kwargs):
         super(Sc2, self).__init__(**kwargs)
         global scatter
-        scatter = Scatter(size_hint=(None, None))
+        scatter = Widget(size_hint=(None, None))
         self.ids.graphic.add_widget(scatter)
 
 
