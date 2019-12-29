@@ -1,0 +1,9 @@
+Welcome to ...
+
+I made this app to help people struggling with geometry to get an instant answer when solving problems.
+
+At the moment, it has simple triangle calculation, however, it is yet to have way more interesting features.
+
+Your feedback on what you would like to see or something you don't like will enhance it to be more useful for others
+
+My E-Mail: plush337@gmail.com

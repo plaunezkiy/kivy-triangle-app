@@ -1,0 +1,159 @@
+#: import NavigationDrawer navdrawer
+<Sc1>:
+    Calculator:
+
+<Sc2>:
+    NavigationDrawer:
+        pos_hint: {'x':0, 'y':0.5}
+        id: nav_drawer_2
+        anim_type: 'slide_above_anim'
+        opening_transition: 'linear'
+        closing_transition: 'linear'
+        BoxLayout:
+            orientation: "vertical"
+            Button:
+                text: "Calculator"
+                background_color: 0, 0, 0, 0
+                on_press: nav_drawer_2.toggle_state(True)
+                on_press: root.manager.current="Calculator"
+            Button:
+                text: "Graphics"
+                on_press: nav_drawer_2.toggle_state(True)
+                background_color: 0, 0, 0, 0
+            Button:
+                text: "Converter"
+                on_press: nav_drawer_2.toggle_state(True)
+                on_press: root.manager.current="Converter"
+                background_color: 0, 0, 0, 0
+            Button:
+                text: "About"
+                on_press: nav_drawer_2.toggle_state(True)
+                on_press: root.manager.current="About"
+                background_color: 0, 0, 0, 0
+
+        ##################################################
+
+        BoxLayout:
+            id: graphic
+            orientation: "vertical"
+            spacing: 5
+            padding: 5
+            BoxLayout:
+                size_hint_y: None
+                height: "55dp"
+                padding: 8
+                Butt:
+                    on_press: nav_drawer_2.toggle_state()
+                    size_hint: 0.05, 1
+                Button:
+                    text: '[b]TRIGOMA[/b]'
+                    markup: True
+                    background_color: 0, 0, 0, 0
+                    on_press: root.manager.current="Calculator"
+                Widget:
+                    size_hint: 0.05, 1
+
+
+<Sc3>:
+    NavigationDrawer:
+        id: nav_drawer_3
+        anim_type: 'slide_above_anim'
+        opening_transition: 'linear'
+        closing_transition: 'linear'
+        BoxLayout:
+            orientation: "vertical"
+            Button:
+                text: "Calculator"
+                background_color: 0, 0, 0, 0
+                on_press: nav_drawer_3.toggle_state(True)
+                on_press: root.manager.current="Calculator"
+            Button:
+                text: "Graphics"
+                on_press: nav_drawer_3.toggle_state(True)
+                on_press: root.manager.current="Graphics"
+                background_color: 0, 0, 0, 0
+            Button:
+                text: "Converter"
+                on_press: nav_drawer_3.toggle_state(True)
+                background_color: 0, 0, 0, 0
+            Button:
+                text: "About"
+                on_press: nav_drawer_3.toggle_state(True)
+                on_press: root.manager.current="About"
+                background_color: 0, 0, 0, 0
+
+        ##################################################
+
+        BoxLayout:
+            id: conv
+            orientation: "vertical"
+            spacing: 5
+            padding: 5
+            BoxLayout:
+                size_hint_y: None
+                height: "55dp"
+                # 1, 0.0415
+                padding: 8
+                Butt:
+                    on_press: nav_drawer_3.toggle_state()
+                    size_hint: 0.05, 1
+                Button:
+                    text: '[b]TRIGOMA[/b]'
+                    markup: True
+                    background_color: 0, 0, 0, 0
+                    on_press: root.manager.current="Calculator"
+                Widget:
+                    size_hint: 0.05, 1
+
+
+
+<Sc4>:
+    NavigationDrawer:
+        id: nav_drawer_4
+        anim_type: 'slide_above_anim'
+        opening_transition: 'linear'
+        closing_transition: 'linear'
+        BoxLayout:
+            orientation: "vertical"
+            Button:
+                text: "Calculator"
+                background_color: 0, 0, 0, 0
+                on_press: nav_drawer_4.toggle_state(True)
+                on_press: root.manager.current="Calculator"
+            Button:
+                text: "Graphics"
+                on_press: nav_drawer_4.toggle_state(True)
+                on_press: root.manager.current="Graphics"
+                background_color: 0, 0, 0, 0
+            Button:
+                text: "Converter"
+                on_press: nav_drawer_4.toggle_state(True)
+                on_press: root.manager.current="Converter"
+                background_color: 0, 0, 0, 0
+            Button:
+                text: "About"
+                on_press: nav_drawer_4.toggle_state(True)
+                background_color: 0, 0, 0, 0
+
+        ##################################################
+
+        BoxLayout:
+            name: box
+            id: box
+            orientation: "vertical"
+            spacing: 5
+            padding: 5
+            BoxLayout:
+                size_hint_y: None
+                height: "55dp"
+                padding: 8
+                Butt:
+                    on_press: nav_drawer_4.toggle_state()
+                    size_hint: 0.05, 1
+                Button:
+                    text: '[b]TRIGOMA[/b]'
+                    markup: True
+                    background_color: 0, 0, 0, 0
+                    on_press: root.manager.current="Calculator"
+                Widget:
+                    size_hint: 0.05, 1
