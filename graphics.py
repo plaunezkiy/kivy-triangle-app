@@ -2,6 +2,7 @@ from kivy.uix.widget import Widget
 from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.scatter import Scatter
 from kivy.uix.bubble import Bubble, BubbleButton
 from math import cos, sin, radians
@@ -13,15 +14,14 @@ from random import random
 
 
 class BubbleWidget(Bubble):
-    def __init__(self, **kwargs):
+    def __init__(self, layout, widget, **kwargs):
         super(BubbleWidget, self).__init__(**kwargs)
 
         self.size_hint = (None, None)
-        self.size = (80, 50)
+        self.size = (100, 40)
         self.pos_hint: (None, None)
-
-        self.add_widget(BubbleButton(text='Cut', on_release=lambda a: print(134)))
-        self.add_widget(BubbleButton(text='Copy'))
+        self.add_widget(BubbleButton(text='Clone', on_release=lambda a: layout.add_widget(widget)))
+        self.add_widget(BubbleButton(text='Delete', on_release=lambda a: layout.remove_widget(widget)))
 
 
 class Scat(Scatter):
@@ -34,31 +34,25 @@ class Scat(Scatter):
         super(Scat, self).__init__(**kwargs)
         self.size_hint = (None, None)
         self.size = (100, 100)
-        self.add_widget(TriangleClass(points))
+        self.add_widget(TriangleClass(points, self))
 
 
-class TriangleClass(Button):
-    def __init__(self, points, **kwargs):
-        self.background_color = (0, 0, 0, 0)
+class TriangleClass(Widget):
+    def __init__(self, points, layout, **kwargs):
         super(TriangleClass, self).__init__(**kwargs)
         with self.canvas:
             Color(random(), random(), random(), 1)
             Triangle(point=points)
+        self.bubb, self.bubb_is = BubbleWidget(layout, self), 0
 
-    def on_touch_down(self, touch):
-        global bubb
+    def on_touch_up(self, touch):
         if touch.is_double_tap:
-            print(hasattr(self, 'bubb'))
-            if not hasattr(self, 'bubb'):
-                self.show_bubble(touch)
+            if not self.bubb_is:
+                self.add_widget(self.bubb)
+                self.bubb_is = 1
             else:
+                self.bubb_is = 0
                 self.remove_widget(self.bubb)
-
-    def show_bubble(self, touch, *l):
-        global bubb
-        if not hasattr(self, 'bubb'):
-            self.bubb = bubb = BubbleWidget(pos=(touch.x, touch.y))
-            self.add_widget(bubb)
 
 
 if __name__ == "__main__":
@@ -70,6 +64,7 @@ if __name__ == "__main__":
             main = BoxLayout(orientation='vertical')
             main.add_widget(Button(text='Spawn a triangle', on_release=lambda a: sec.add_widget(Scat([3, 60.0, 3, 60.0, 3, 60.0]))))
             sec = Widget()
+            # main.add_widget(Scat([3, 60.0, 3, 60.0, 3, 60.0]))
             main.add_widget(sec)
 
             return main

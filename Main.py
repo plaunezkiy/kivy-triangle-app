@@ -39,7 +39,7 @@ class Sc2(Screen):            # Graphic
     def __init__(self, **kwargs):
         super(Sc2, self).__init__(**kwargs)
         global scatter
-        scatter = Widget(size_hint=(None, None))
+        scatter = Widget()
         self.ids.graphic.add_widget(scatter)
 
 
