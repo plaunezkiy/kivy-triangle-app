@@ -12,10 +12,6 @@ from kivy.metrics import dp
 from kivy.uix.screenmanager import ScreenManager, Screen, FadeTransition
 from kivy.uix.slider import Slider
 from kivy.uix.dropdown import DropDown
-from kivy.uix.scatter import Scatter
-from kivy.graphics import *
-from kivy.uix.behaviors import DragBehavior
-from math import cos, sin, radians
 import re
 import function as func
 from graphics import Scat
@@ -51,21 +47,20 @@ class Sc3(Screen):            # Converter
         scales = ['Length', 'Speed']
         m = [['Kilometer', 'Meter', 'Centimeter', 'Millimeter', 'Micrometer', 'Nanometer', 'Picometer'],
              ['km/h', 'm/h', 'km/s', 'm/s']]
-        rows = BoxLayout(spacing=10, orientation='vertical', height=dp(45*len(scales)), size_hint_y=None)
+        rows = self.ids.layout
 
         # CREATING ROWS
         for i in range(len(scales)):
             row = BoxLayout(orientation='horizontal', spacing=10)
             row.add_widget(Label(text=scales[i], font_name='assets/unicode.ttf'))
             row.add_widget(FloatInput(font_size=21))
-            row.add_widget(DropBut(m[i]))
+            row.add_widget(DropBut(m[i], id='dropbut{}'.format(i)))
             row.add_widget(Label(text='[b]INTO[/b]', markup=True))
             row.add_widget(FloatInput(font_size=21))
             row.add_widget(DropBut(m[i]))
             row.add_widget(Button(text='Convert'))
             rows.add_widget(row)
 
-        self.ids.conv.add_widget(rows)
         self.ids.conv.add_widget(Widget())
 
 
@@ -89,7 +84,7 @@ class DropBut(Button):
             but = Button(text=word, size_hint_y=None, height=44)
             but.bind(on_release=lambda but: dropdown.select(but.text))
             dropdown.add_widget(but)
-        self.text = ' Unitsв‡©'
+        self.text = ' Units'
         self.font_name = 'assets/unicode.ttf'
         self.width = dp(100)
         self.size_hint_x = None
@@ -134,7 +129,7 @@ class Settings(ButtonBehavior, Image):
         sett = Popup(title='Settings', size_hint=(0.8, 0.8))
 
         content = BoxLayout(orientation='vertical')
-        content.add_widget(Label(text="Choose how many decimal places do you want?"))
+        content.add_widget(Label(text="Choose how many decimal places you want"))
 
         dec_pla = BoxLayout()
         for i in range(4):
@@ -179,7 +174,7 @@ class Calculator(BoxLayout):
                               float(input_list[3].text), float(input_list[5].text), float(input_list[1].text))
             # -----------------------
             if not (results[0] and results[1] and results[2] and results[3] and results[4] and results[5]):
-                popup = Popup(title='Oooops, Something went wrong', content=Button(
+                popup = Popup(title='Oooops, Looks like we can\'t solve it', content=Button(
                     text='OK', size_hint=(0.8, 0.8), on_release=lambda n: popup.dismiss()), size_hint=(0.5, 0.25))
                 for j in range(6):
                     input_list[j].text = ''
@@ -208,8 +203,6 @@ class Calculator(BoxLayout):
                 switch("Graphics", 0)
 
         # -----------------------
-            #global toch
-            #toch = (pox, poy, pox + a, poy, pox + cos(radians(be)) * c, poy + sin(radians(be)) * c)
 
         def clear():
             buttons.clear_widgets()
@@ -253,7 +246,7 @@ class Calculator(BoxLayout):
                                                                                                              0)))
         panel.add_widget(Button(text='Converter', on_press=lambda a: switch("Converter", 1), background_color=(0, 0, 0,
                                                                                                                0)))
-        # panel.add_widget(Button(text='Tips', background_color=(0, 0, 0, 0)))
+        panel.add_widget(Button(text='Tips', background_color=(0, 0, 0, 0)))
         panel.add_widget(Button(text='About', on_press=lambda a: switch("About", 1), background_color=(0, 0, 0, 0)))
         navdraw.add_widget(panel)
         ##################################################################

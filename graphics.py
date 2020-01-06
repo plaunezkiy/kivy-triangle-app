@@ -14,13 +14,13 @@ from random import random
 
 
 class BubbleWidget(Bubble):
-    def __init__(self, layout, widget, **kwargs):
+    def __init__(self, layout, widget, data, **kwargs):
         super(BubbleWidget, self).__init__(**kwargs)
 
         self.size_hint = (None, None)
         self.size = (100, 40)
         self.pos_hint: (None, None)
-        self.add_widget(BubbleButton(text='Clone', on_release=lambda a: layout.add_widget(widget)))
+        self.add_widget(BubbleButton(text='Clone', on_release=lambda a: layout.add_widget(TriangleClass(data, layout))))
         self.add_widget(BubbleButton(text='Delete', on_release=lambda a: layout.remove_widget(widget)))
 
 
@@ -28,12 +28,15 @@ class Scat(Scatter):
     def __init__(self, points, **kwargs):
         x_offset = 0
         y_offset = 0
-        points = [x_offset, y_offset, x_offset + points[2], y_offset, x_offset + cos(radians(points[5])) * points[0],
-                y_offset + sin(radians(points[5])) * points[0]]
-
+        width = 150
+        height = 150
+        #                                        points[2]                                             points[0]
+        points = [x_offset, y_offset, x_offset + width, y_offset, x_offset + cos(radians(points[5])) * height,
+                  y_offset + sin(radians(points[5])) * height]
+        print(points)
         super(Scat, self).__init__(**kwargs)
         self.size_hint = (None, None)
-        self.size = (100, 100)
+        self.size = (points[2], points[5])
         self.add_widget(TriangleClass(points, self))
 
 
@@ -42,8 +45,8 @@ class TriangleClass(Widget):
         super(TriangleClass, self).__init__(**kwargs)
         with self.canvas:
             Color(random(), random(), random(), 1)
-            Triangle(point=points)
-        self.bubb, self.bubb_is = BubbleWidget(layout, self), 0
+            Triangle(points=points)
+        self.bubb, self.bubb_is = BubbleWidget(layout, self, points), 0
 
     def on_touch_up(self, touch):
         if touch.is_double_tap:
@@ -62,7 +65,8 @@ if __name__ == "__main__":
     class Main(App):
         def build(self):
             main = BoxLayout(orientation='vertical')
-            main.add_widget(Button(text='Spawn a triangle', on_release=lambda a: sec.add_widget(Scat([3, 60.0, 3, 60.0, 3, 60.0]))))
+            p = (3000.0, 36.86989764584401, 4000.0, 53.13010235415599, 5000.0, 90.0)
+            main.add_widget(Button(text='Spawn a triangle', on_release=lambda a: sec.add_widget(Scat(p))))
             sec = Widget()
             # main.add_widget(Scat([3, 60.0, 3, 60.0, 3, 60.0]))
             main.add_widget(sec)
