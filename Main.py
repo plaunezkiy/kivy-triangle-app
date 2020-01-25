@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
@@ -7,19 +9,22 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.widget import Widget
 from kivy.uix.popup import Popup
 from kivy.uix.image import Image
+# from kivy.uix.settings import Settings as SettingsSection
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.metrics import dp
 from kivy.uix.screenmanager import ScreenManager, Screen, FadeTransition
 from kivy.uix.slider import Slider
 from kivy.uix.dropdown import DropDown
+from math import sin, cos, radians
 import re
 import function as func
 from graphics import Scat
 from navdrawer import NavigationDrawer
+# from kivy.garden.navigationdrawer import NavigationDrawer
 
 
 scatter = None
-dec_places = 3
+dec_places = 2
 input_list = []
 var = 'AB', '∠ACB', 'BC', '∠BAC', 'AC', '∠ABC'
 sm = ScreenManager(transition=FadeTransition())
@@ -50,7 +55,15 @@ class Sc3(Screen):            # Converter
         rows = self.ids.layout
 
         # CREATING ROWS
-        for i in range(len(scales)):
+        row1 = BoxLayout(orientation='horizontal', spacing=10, size_hint_y=0.1)
+        row1.add_widget(Label(text=scales[0], font_name='assets/unicode.ttf'))
+        row1.add_widget(FloatInput(font_size=21))
+        row1.add_widget(DropBut(m[0]))
+        row1.add_widget(Label(text='[b]INTO[/b]', markup=True))
+        row1.add_widget(FloatInput(font_size=21))
+        row1.add_widget(DropBut(m[1]))
+        row1.add_widget(Button(text='Convert'))
+        """for i in range(len(scales)):
             row = BoxLayout(orientation='horizontal', spacing=10)
             row.add_widget(Label(text=scales[i], font_name='assets/unicode.ttf'))
             row.add_widget(FloatInput(font_size=21))
@@ -59,7 +72,8 @@ class Sc3(Screen):            # Converter
             row.add_widget(FloatInput(font_size=21))
             row.add_widget(DropBut(m[i]))
             row.add_widget(Button(text='Convert'))
-            rows.add_widget(row)
+            rows.add_widget(row)"""
+        rows.add_widget(row1)
 
         self.ids.conv.add_widget(Widget())
 
@@ -77,13 +91,13 @@ class Sc4(Screen):            # About
 
 
 class DropBut(Button):
-    def __init__(self, metrics, **kwargs):
+    def __init__(self, words, **kwargs):
         super(DropBut, self).__init__(**kwargs)
         dropdown = DropDown()
-        for word in metrics:
-            but = Button(text=word, size_hint_y=None, height=44)
-            but.bind(on_release=lambda but: dropdown.select(but.text))
-            dropdown.add_widget(but)
+        for word in words:
+            button = Button(text=word, size_hint_y=None, height=44)
+            button.bind(on_release=lambda but: dropdown.select(but.text))
+            dropdown.add_widget(button)
         self.text = ' Units'
         self.font_name = 'assets/unicode.ttf'
         self.width = dp(100)
@@ -127,8 +141,7 @@ class Settings(ButtonBehavior, Image):
     def on_press(self):
         self.source = 'assets/settings.png'
         sett = Popup(title='Settings', size_hint=(0.8, 0.8))
-
-        content = BoxLayout(orientation='vertical')
+        content = BoxLayout(orientation='vertical', padding=10)
         content.add_widget(Label(text="Choose how many decimal places you want"))
 
         dec_pla = BoxLayout()
@@ -171,7 +184,7 @@ class Calculator(BoxLayout):
                     input_list[j].text = '0'
 
             results = func.calc(float(input_list[2].text), float(input_list[4].text), float(input_list[0].text),
-                              float(input_list[3].text), float(input_list[5].text), float(input_list[1].text))
+                                float(input_list[3].text), float(input_list[5].text), float(input_list[1].text))
             # -----------------------
             if not (results[0] and results[1] and results[2] and results[3] and results[4] and results[5]):
                 popup = Popup(title='Oooops, Looks like we can\'t solve it', content=Button(
@@ -199,7 +212,14 @@ class Calculator(BoxLayout):
 
             def draw_one(points):
                 global scatter
-                scatter.add_widget(Scat(points))
+                x_offset = 0
+                y_offset = 0
+                width = 150  # points[2]
+                height = 150  # points[0]
+
+                points = [x_offset, y_offset, x_offset + width, y_offset, x_offset + cos(radians(points[5])) * height,
+                          y_offset + sin(radians(points[5])) * height]
+                scatter.add_widget(Scat(scatter, points))
                 switch("Graphics", 0)
 
         # -----------------------
@@ -246,10 +266,11 @@ class Calculator(BoxLayout):
                                                                                                              0)))
         panel.add_widget(Button(text='Converter', on_press=lambda a: switch("Converter", 1), background_color=(0, 0, 0,
                                                                                                                0)))
-        panel.add_widget(Button(text='Tips', background_color=(0, 0, 0, 0)))
         panel.add_widget(Button(text='About', on_press=lambda a: switch("About", 1), background_color=(0, 0, 0, 0)))
         navdraw.add_widget(panel)
-        ##################################################################
+
+        #######################################
+
         header = BoxLayout(size_hint_y=None, height=dp(55), padding=8)
         header.add_widget(Butt(size_hint=(0.05, 1), on_press=lambda j: navdraw.toggle_state()))
         header.add_widget(Label(text='[b]TRIGOMA[/b]', markup=True))
