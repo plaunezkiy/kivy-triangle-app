@@ -18,7 +18,7 @@ class BubbleWidget(Bubble):
         super(BubbleWidget, self).__init__(**kwargs)
 
         self.size_hint = (None, None)
-        self.size = (110, 40)
+        self.size = (120, 30)
         self.pos_hint = {'center_x': .5, 'center_y': .6}
         self.add_widget(BubbleButton(text='Clone', on_release=lambda a: layout.add_widget(Scat(layout, points))))
         self.add_widget(BubbleButton(text='Delete', on_release=lambda a: layout.remove_widget(widget)))
